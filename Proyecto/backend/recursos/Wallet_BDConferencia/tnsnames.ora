@@ -1,0 +1,12 @@
+bdconferencia_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=g8001258df46fda_bdconferencia_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+bdconferencia_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=g8001258df46fda_bdconferencia_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+bdconferencia_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=g8001258df46fda_bdconferencia_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+bdconferencia_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=g8001258df46fda_bdconferencia_tp.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+bdconferencia_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.mx-queretaro-1.oraclecloud.com))(connect_data=(service_name=g8001258df46fda_bdconferencia_tpurgent.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
+
+
+
