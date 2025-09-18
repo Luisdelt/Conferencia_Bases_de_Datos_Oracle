@@ -222,9 +222,7 @@ def insert_department():
         connection.commit()
         cursor.close()
         connection.close()
-        return jsonify({
-            "status": "success",
-            "message": "Department inserted successfully"})
+        return jsonify({"message": "Department inserted successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -262,9 +260,7 @@ def update_school(id_escuela):
             connection.commit()
             cursor.close()
             connection.close()
-            return jsonify({
-                "status": "success",
-                "message": "School updated successfully"})
+            return jsonify({"message": "School updated successfully"})
         else:
             cursor.close()
             connection.close()
