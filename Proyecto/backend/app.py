@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 from flask_cors import CORS
 from config_cloud import get_oracle_connection
 app = Flask(__name__)
@@ -21,6 +21,7 @@ def dual():
         return jsonify({"saludo": result[0]})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/api/test/grades', methods=['GET'])
 def get_students_grades():
@@ -201,6 +202,71 @@ def get_most_correct_questions():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/api/department/insert', methods=['POST'])
+def insert_department():
+    try:
+        data = request.get_json()
+        id_departamento = data["id_departamento"]
+        nombre = data["nombre"]
+        codigo = data["codigo"]
+
+        connection = get_oracle_connection()
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            INSERT INTO DEPARTAMENTO 
+                (ID_DEPARTAMENTO, NOMBRE, CODIGO) 
+            VALUES (:id_departamento, :nombre, :codigo)
+        """, {"id_departamento":id_departamento, "nombre":nombre, "codigo":codigo})
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return jsonify({"message": "Department inserted successfully"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/school/<int:id_escuela>', methods=['PUT'])
+def update_school(id_escuela):
+    try:
+        connection = get_oracle_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT * ESCUELA WHERE ID = :id_escuela", {"id_escuela": id_escuela}
+        )
+        fila = cursor.fetchone()
+        if fila:
+            data = request.get_json()
+            if not data:
+                return jsonify({"error": "No input data provided"}), 400
+            campos = []
+            valores = {}
+            for key, value in data.items():
+                campos.append(f"{key.upper()} = :{key}")
+                valores[key] = value
+            if not campos:
+                return jsonify({"error": "No fields to update"}), 400
+            valores["id_escuela"] = id_escuela
+            query = f"""
+                UPDATE ESCUELA 
+                SET {', '.join(campos)} 
+                WHERE ID = :id_escuela
+            """
+            print(query)
+            print(valores)
+            connection = get_oracle_connection()
+            cursor = connection.cursor()
+            cursor.execute(query, valores)
+            connection.commit()
+            cursor.close()
+            connection.close()
+            return jsonify({"message": "School updated successfully"})
+        else:
+            cursor.close()
+            connection.close()
+            return jsonify({"error": "School not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(threaded=True, port=3000, debug=True)
