@@ -222,7 +222,9 @@ def insert_department():
         connection.commit()
         cursor.close()
         connection.close()
-        return jsonify({"message": "Department inserted successfully"})
+        return jsonify({
+            "status": "success",
+            "message": "Department inserted successfully"})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -232,7 +234,7 @@ def update_school(id_escuela):
         connection = get_oracle_connection()
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * ESCUELA WHERE ID = :id_escuela", {"id_escuela": id_escuela}
+            "SELECT * FROM ESCUELA WHERE ID_ESCUELA = :id_escuela", {"id_escuela": id_escuela}
         )
         fila = cursor.fetchone()
         if fila:
@@ -250,7 +252,7 @@ def update_school(id_escuela):
             query = f"""
                 UPDATE ESCUELA 
                 SET {', '.join(campos)} 
-                WHERE ID = :id_escuela
+                WHERE ID_ESCUELA = :id_escuela
             """
             print(query)
             print(valores)
@@ -260,7 +262,9 @@ def update_school(id_escuela):
             connection.commit()
             cursor.close()
             connection.close()
-            return jsonify({"message": "School updated successfully"})
+            return jsonify({
+                "status": "success",
+                "message": "School updated successfully"})
         else:
             cursor.close()
             connection.close()
